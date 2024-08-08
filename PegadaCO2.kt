@@ -1,6 +1,7 @@
 fun main() {
     // Nome e introdução do programa
     println("=== PegadaCO2 ===")
+    introducao()
 
     // Solicitar e calcular consumo de eletricidade e gás natural
     val eletricidade = solicitarConsumo("eletricidade", "kWh")
