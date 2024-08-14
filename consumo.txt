@@ -1,0 +1,4 @@
+arroz,200
+feijao,400
+carne,100
+leite,300
