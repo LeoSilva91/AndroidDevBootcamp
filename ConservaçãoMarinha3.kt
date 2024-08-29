@@ -15,9 +15,9 @@ abstract class ConservacaoMarinha(
     // Método para inicializar e exibir a descrição da área de conservação
     fun inicializarDescricao() {
         if (::descricao.isInitialized) {
-            println("Nova área de conservação criada: $descricao")
+            println("\n[INFO] Nova área de conservação criada: $descricao\n")
         } else {
-            println("Descrição não foi inicializada.")
+            println("\n[WARN] Descrição não foi inicializada.\n")
         }
     }
 
@@ -44,7 +44,7 @@ class Utilidades {
 }
 
 // Classe concreta que herda de ConservacaoMarinha
-class ReservaMarinha(
+open class ReservaMarinha( // Marcada como `open` para permitir herança
     tipoAmbiente: String,
     areaProtegidaEmKm2: Double,
     possuiProgramaMonitoramento: Boolean,
@@ -53,7 +53,7 @@ class ReservaMarinha(
 
     // Implementação do método abstrato para retornar detalhes específicos da conservação
     override fun detalhesConservacao(): String {
-        return "Reserva do tipo $tipoReserva em ambiente $tipoAmbiente com área de $areaProtegidaEmKm2 km²."
+        return "Reserva do tipo $tipoReserva em ambiente $tipoAmbiente com área de ${"%.2f".format(areaProtegidaEmKm2)} km²."
     }
 
     // Sobrescrita do método da interface para calcular eficiência ajustada
@@ -64,7 +64,15 @@ class ReservaMarinha(
 
     // Implementação adicional para atender a interface
     override fun descricaoCompleta(): String {
-        return "$tipoReserva: ${detalhesConservacao()} - Eficiência de conservação: ${calcularEficiencia()}"
+        val eficienciaFormatada = "%.2f".format(calcularEficiencia())
+        return """
+            |-------------------------------------------------
+            | Tipo de Reserva: $tipoReserva
+            | Detalhes da Conservação: ${detalhesConservacao()}
+            | Programa de Monitoramento: ${if (possuiProgramaMonitoramento) "Sim" else "Não"}
+            | Eficiência de Conservação: $eficienciaFormatada
+            |-------------------------------------------------
+        """.trimMargin()
     }
 }
 
@@ -84,4 +92,32 @@ fun main() {
         inicializarDescricao() // Inicializa a descrição com base nos dados fornecidos
     }
     println(reserva.descricaoCompleta())
+
+    // Classe anônima que estende ReservaMarinha para adicionar detalhes específicos
+    val reservaEspecifica = object : ReservaMarinha("CORAL", 200.0, true, "Ecológica") {
+        override fun detalhesConservacao(): String {
+            // Adiciona detalhes específicos além do comportamento normal
+            return super.detalhesConservacao() + " Inclui programas de pesquisa ecológica avançada."
+        }
+
+        override fun calcularEficiencia(): Double {
+            // Ajusta a eficiência com um fator específico para esta classe anônima
+            val fatorEspecial = Utilidades.calcularFatorAjuste(areaProtegidaEmKm2) + 0.5
+            return super.calcularEficiencia(fatorEspecial)
+        }
+
+        override fun descricaoCompleta(): String {
+            val eficienciaFormatada = "%.2f".format(calcularEficiencia())
+            return """
+                |-------------------------------------------------
+                | Tipo de Reserva: Ecológica
+                | Detalhes da Conservação: ${detalhesConservacao()}
+                | Foco Especial: Inclui programas de pesquisa ecológica avançada e biodiversidade marinha.
+                | Eficiência de Conservação: $eficienciaFormatada
+                |-------------------------------------------------
+            """.trimMargin()
+        }
+    }
+
+    println(reservaEspecifica.descricaoCompleta())  // Saída da classe anônima com comportamento modificado
 }
