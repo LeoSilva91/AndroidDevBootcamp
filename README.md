@@ -1,2 +1,5 @@
-# PegadaCO2
-Este programa ajuda você a calcular sua pegada de carbono com base no consumo de eletricidade e gás natural
+# AndroidDevBootcamp
+Desejamos boas-vindas a Jornada Green Code!
+Neste Bootcamp, vocês embarcarão em uma missão para ​criar soluções mobile que não apenas atendem às ​necessidades tecnológicas de hoje, mas também ​contribuem para um futuro mais verde e sustentável.
+
+
